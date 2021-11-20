@@ -1,5 +1,5 @@
-from flask import Blueprint, redirect, render_template, url_for, flash
-from flask_login import (login_user, login_required)
+from flask import Blueprint, redirect, render_template, url_for, flash, request
+from flask_login import (login_user, login_required, current_user)
 
 from mib.forms import UserForm
 from mib.rao.user_manager import UserManager
@@ -7,6 +7,64 @@ from mib.auth.user import User
 
 users = Blueprint('users', __name__)
 
+
+# Register a user if all fields are properly filled
+def user_registration(form):
+    print(form.data['birthdate'])
+
+    if form.validate_on_submit():
+        print('valid')
+        email = form.data['email']
+        password = form.data['password']
+        firstname = form.data['firstname']
+        lastname = form.data['lastname']
+        birthdate = form.data['birthdate']
+        date = birthdate.strftime('%Y-%m-%d')
+        photo_path=form.data['photo']
+
+        response = UserManager.create_user(
+            email,
+            password,
+            firstname,
+            lastname,
+            date,
+            photo_path
+        )
+
+        if response.status_code == 201:
+            # in this case the request is ok!
+            
+            #user = response.json()
+            #to_login = User.build_from_json(user["user"])
+            #login_user(to_login)            
+            
+            # after a successful registration, a message appears in the same page
+            # inviting the just registered user to login
+            return render_template('register.html', 
+                mphoto = photo_path if not '' else 'profile_pics/profile_pic.svg', 
+                form = form, 
+                just_registered = "You are registered! Please")
+        elif response.status_code == 200:
+            # user already exists
+            flash('User already exists!')
+            return render_template('register.html', form = form, 
+                mphoto = 'profile_pics/profile_pic.svg',
+                email_error_message = "Email already registered.")
+                
+        else:
+            print('errore strano')
+            flash('Unexpected response from users microservice!')
+            return render_template('register.html', form = form,
+                mphoto = photo_path if not '' else 'profile_pics/profile_pic.svg', 
+            )
+
+    # case in which the date format is incorrect
+    else:
+        # wrong dath of birth inserted and
+        # check if the user with this email is already registered
+        return render_template('register.html', form = form, 
+            mphoto = 'profile_pics/profile_pic.svg', 
+            date_error_message = "Date format DD/MM/YYYY.")
 
 
 @users.route('/register', methods=['GET', 'POST'])
@@ -16,48 +74,18 @@ def create_user():
     Returns:
         Redirects the user into his profile page, once he's logged in
     """
+    # check if the user is already logged, 
+    # if so the user will be redirected to his dashboard
+    if current_user.is_authenticated:
+        return redirect("/")
     form = UserForm()
-
-    if form.is_submitted():
-        email = form.data['email']
-        password = form.data['password']
-        firstname = form.data['firstname']
-        lastname = form.data['lastname']
-        birthdate = form.data['birthdate']
-        date = birthdate.strftime('%Y-%m-%d')
-        phone = form.data['phone']
-        photo_path=form.data['photo']
-        print("qui")
-        print(photo_path)
-        response = UserManager.create_user(
-            email,
-            password,
-            firstname,
-            lastname,
-            date,
-            phone,
-            photo_path
-        )
-
-        if response.status_code == 201:
-            # in this case the request is ok!
-            user = response.json()
-            to_login = User.build_from_json(user["user"])
-            login_user(to_login)
-            return redirect(url_for('home.index', id=to_login.id))
-        elif response.status_code == 200:
-            # user already exists
-            flash('User already exists!')
-            return render_template('register.html', form=form)
-        else:
-            flash('Unexpected response from users microservice!')
-            return render_template('register.html', form=form)
+    # registration post request
+    if request.method == 'POST':
+        return user_registration(form)       
     else:
-        for fieldName, errorMessages in form.errors.items():
-            for errorMessage in errorMessages:
-                flash('The field %s is incorrect: %s' % (fieldName, errorMessage))
-
-    return render_template('register.html', form=form)
+        # get the page
+        suggest = "README: separate each forbidden word with a ',' "
+        return render_template('register.html', mphoto = 'profile_pics/profile_pic.svg', form = form, suggest = suggest)
 
 
 @users.route('/delete_user/<int:id>', methods=['GET', 'POST'])

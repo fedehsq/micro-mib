@@ -1,6 +1,6 @@
 import wtforms as f
 from flask_wtf import FlaskForm
-from wtforms.fields.html5 import DateField, EmailField, TelField
+from wtforms.fields.html5 import DateField, EmailField
 from wtforms.validators import DataRequired, Email
 
 from mib.validators.age import AgeValidator
@@ -15,9 +15,9 @@ class UserForm(FlaskForm):
         'Photo'
         )
 
-    email = EmailField(
+    email = f.StringField(
         'Email',
-        validators=[DataRequired(), Email()]
+        validators=[DataRequired()]
     )
 
     firstname = f.StringField(
@@ -35,15 +35,12 @@ class UserForm(FlaskForm):
         validators=[DataRequired()]
     )
 
-    birthdate = DateField(
+    birthdate = f.DateField(
         'Birthday',
-        validators=[AgeValidator(min_age=18)]
+        format='%d/%m/%Y'
     )
 
-    phone = TelField(
-        'Phone',
-        validators=[DataRequired()]
-    )
+
 
     display = ['photo', 'email', 'firstname', 'lastname', 'password',
-               'birthdate', 'phone']
+               'birthdate']

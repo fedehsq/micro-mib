@@ -173,26 +173,19 @@ components:
         birthdate:
           type: string
           description: Customer birthdate
-          example: '2020-01-01'
+          example: '01/01/2020'
           format: date
-        phone:
-          type: string
-          description: Customer phone number
-          example: '+39 3332222384'
-          minLength: 10
-          maxLength: 25
         password:
           type: string
           description: Customer password
           example: 'abcd1234'
-          minLength: 5
+          minLength: 1
           maxLength: 127
     
     UpdateUser:
       required:
         - email
         - password
-        - phone
       type: object
       properties:
         email:
@@ -204,11 +197,5 @@ components:
           type: string
           description: Customer password
           example: 'abcd1234'
-          minLength: 5
+          minLength: 1
           maxLength: 127
-        phone:
-          type: string
-          description: Customer phone number
-          example: '+39 3332222384'
-          minLength: 10
-          maxLength: 25

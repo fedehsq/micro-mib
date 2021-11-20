@@ -13,13 +13,13 @@ class User(db.Model):
     SERIALIZE_LIST = ['id', 'email', 'is_active', 'authenticated']
 
     # All fields of user
-    photo = db.Column(db.Unicode(128), default = 'profile_pics/profile_pic.svg')
+    photo = db.Column(db.Unicode(8196), default = 'profile_pics/profile_pic.svg')
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     email = db.Column(db.Unicode(128), nullable = False, unique = True)
     first_name = db.Column(db.Unicode(128), nullable = False, unique = False)
     last_name = db.Column(db.Unicode(128), nullable = False, unique = False)
     password = db.Column(db.Unicode(128))
-    birthdate = db.Column(db.Date())
+    birthdate = db.Column(db.DateTime())
     is_active = db.Column(db.Boolean, default = True)
     authenticated = db.Column(db.Boolean, default = True)
     forbidden_words = db.Column(db.Unicode(1024), default = "")
@@ -51,9 +51,6 @@ class User(db.Model):
 
     def set_birthday(self, birthdate):
         self.birthdate = birthdate
-
-    def set_phone(self, phone):
-        self.phone = phone
 
     def authenticate(self, password):
         checked = check_password_hash(self.password, password)

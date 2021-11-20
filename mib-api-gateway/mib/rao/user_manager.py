@@ -55,32 +55,10 @@ class UserManager:
         return user
 
     @classmethod
-    def get_user_by_phone(cls, user_phone: str) -> User:
-        """
-        This method contacts the users microservice
-        and retrieves the user object by user phone.
-        :param user_phone: the user phone
-        :return: User obj with phone=user_phone
-        """
-        try:
-            response = requests.get("%s/user_phone/%s" % (cls.USERS_ENDPOINT, user_phone),
-                                    timeout=cls.REQUESTS_TIMEOUT_SECONDS)
-            json_payload = response.json()
-            user = None
-
-            if response.status_code == 200:
-                user = User.build_from_json(json_payload)
-
-        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
-            return abort(500)
-
-        return user
-
-    @classmethod
     def create_user(cls,
                     email: str, password: str,
                     firstname: str, lastname: str,
-                    birthdate, phone: str, photo_path:str):
+                    birthdate, photo_path:str):
         try:
             photo_bytes = b64encode(photo_path.read())
             photo_string = photo_bytes.decode('utf-8') 
@@ -92,7 +70,6 @@ class UserManager:
                                          'firstname': firstname,
                                          'lastname': lastname,
                                          'birthdate': birthdate,
-                                         'phone': phone, 
                                          'photo_path': photo_string
                                      },
                                      timeout=cls.REQUESTS_TIMEOUT_SECONDS
@@ -100,21 +77,19 @@ class UserManager:
 
         except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
             return abort(500)
-
+        print(response.text)
         return response
 
     @classmethod
-    def update_user(cls, user_id: int, email: str, password: str, phone: str):
+    def update_user(cls, user_id: int, email: str, password: str):
         """
         This method contacts the users microservice
         to allow the users to update their profiles
-        :param phone:
         :param password:
         :param email:
         :param user_id: the customer id
             email: the user email
             password: the user password
-            phone: the user phone
         :return: User updated
         """
         try:
@@ -122,8 +97,7 @@ class UserManager:
             response = requests.put(url,
                                     json={
                                         'email': email,
-                                        'password': password,
-                                        'phone': phone
+                                        'password': password
                                     },
                                     timeout=cls.REQUESTS_TIMEOUT_SECONDS
                                     )
