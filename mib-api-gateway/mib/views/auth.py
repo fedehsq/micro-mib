@@ -13,8 +13,9 @@ def login():
     if current_user.is_authenticated:
         return redirect("/")
     form = LoginForm()
-
+    print('qua')
     if form.validate_on_submit():
+        print('FORM VALIDO')
         email, password = form.data['email'], form.data['password']
         user = UserManager.authenticate_user(email, password)
         if user is not None and user.deleted == False:

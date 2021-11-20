@@ -8,7 +8,7 @@ from mib.auth.user import User
 users = Blueprint('users', __name__)
 
 
-@users.route('/create_user/', methods=['GET', 'POST'])
+@users.route('/register', methods=['GET', 'POST'])
 def create_user():
     """This method allows the creation of a new user into the database
 
@@ -52,7 +52,7 @@ def create_user():
             for errorMessage in errorMessages:
                 flash('The field %s is incorrect: %s' % (fieldName, errorMessage))
 
-    return render_template('create_user.html', form=form)
+    return render_template('register.html', form=form)
 
 
 @users.route('/delete_user/<int:id>', methods=['GET', 'POST'])
