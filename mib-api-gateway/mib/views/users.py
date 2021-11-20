@@ -7,13 +7,9 @@ from mib.auth.user import User
 
 users = Blueprint('users', __name__)
 
-
 # Register a user if all fields are properly filled
 def user_registration(form):
-    print(form.data['birthdate'])
-
     if form.validate_on_submit():
-        print('valid')
         email = form.data['email']
         password = form.data['password']
         firstname = form.data['firstname']
@@ -46,20 +42,19 @@ def user_registration(form):
                 just_registered = "You are registered! Please")
         elif response.status_code == 200:
             # user already exists
-            flash('User already exists!')
             return render_template('register.html', form = form, 
                 mphoto = 'profile_pics/profile_pic.svg',
                 email_error_message = "Email already registered.")
                 
         else:
-            print('errore strano')
-            flash('Unexpected response from users microservice!')
             return render_template('register.html', form = form,
                 mphoto = photo_path if not '' else 'profile_pics/profile_pic.svg', 
             )
-
     # case in which the date format is incorrect
     else:
+        for fieldName, errorMessages in form.errors.items():
+            print(fieldName)
+            print(errorMessages)
         # wrong dath of birth inserted and
         # check if the user with this email is already registered
         return render_template('register.html', form = form, 

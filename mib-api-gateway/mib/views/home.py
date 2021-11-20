@@ -6,7 +6,7 @@ home = Blueprint('home', __name__)
 
 @home.route('/', methods=['GET'])
 def index():
-    if current_user is not None and hasattr(current_user, 'id'):
+    if current_user.is_authenticated:
         # calculate the number of notifications 
         # number of message received to read + number of message sent that have been read       
 
@@ -15,4 +15,3 @@ def index():
         return render_template("index.html", number = 0)
     else:
         return redirect("/login")
-

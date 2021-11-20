@@ -10,7 +10,7 @@ class User(db.Model):
     __tablename__ = 'User'
 
     # A list of fields to be serialized
-    SERIALIZE_LIST = ['id', 'email', 'is_active', 'authenticated']
+    SERIALIZE_LIST = ['id', 'email', 'is_active', 'authenticated', 'deleted', 'is_blocked']
 
     # All fields of user
     photo = db.Column(db.Unicode(8196), default = 'profile_pics/profile_pic.svg')

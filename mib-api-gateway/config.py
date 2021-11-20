@@ -84,8 +84,7 @@ class ProdConfig(Config):
     """
     TESTING = False
     DEBUG = False
+    WTF_CSRF_ENABLED = False
 
     import os
     SECRET_KEY = os.getenv('APP_SECRET_KEY', os.urandom(24))
-
-
