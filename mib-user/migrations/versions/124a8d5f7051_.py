@@ -29,6 +29,9 @@ def upgrade():
     sa.Column('is_active', sa.Boolean(), nullable=True),
     sa.Column('is_admin', sa.Boolean(), nullable=True),
     sa.Column('authenticated', sa.Boolean(), nullable=True),
+    sa.Column('forbidden_words', sa.Unicode(length = 1024), nullable = True, default = ''),
+    sa.Column('is_blocked', sa.Boolean(), nullable=True, default = False),
+    sa.Column('deleted', sa.Boolean(), nullable=True, default = False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('phone')
