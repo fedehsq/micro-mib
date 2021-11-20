@@ -26,6 +26,8 @@ def create_user():
     user.set_last_name(post_data.get('lastname'))
     user.set_birthday(birthday)
     user.set_phone(post_data.get('phone'))
+    user.set_photo(post_data.get('photo'))
+
     UserManager.create_user(user)
 
     response_object = {

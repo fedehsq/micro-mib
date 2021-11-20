@@ -13,6 +13,7 @@ class User(db.Model):
     SERIALIZE_LIST = ['id', 'email', 'is_active', 'authenticated']
 
     # All fields of user
+    photo = db.Column(db.Unicode(128), default = 'profile_pics/profile_pic.svg')
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     email = db.Column(db.Unicode(128), nullable = False, unique = True)
     first_name = db.Column(db.Unicode(128), nullable = False, unique = False)
@@ -59,5 +60,8 @@ class User(db.Model):
         self.authenticated = checked
         return self.authenticated
 
+    def set_photo(self,photo):
+        self.photo=photo
+        
     def serialize(self):
         return dict([(k, self.__getattribute__(k)) for k in self.SERIALIZE_LIST])
