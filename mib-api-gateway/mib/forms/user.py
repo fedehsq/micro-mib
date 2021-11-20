@@ -11,6 +11,10 @@ class UserForm(FlaskForm):
     This form requires all the personal information, in order to create the account.
     """
 
+    photo = f.FileField(
+        'Photo'
+        )
+
     email = EmailField(
         'Email',
         validators=[DataRequired(), Email()]
@@ -41,5 +45,5 @@ class UserForm(FlaskForm):
         validators=[DataRequired()]
     )
 
-    display = ['email', 'firstname', 'lastname', 'password',
+    display = ['photo', 'email', 'firstname', 'lastname', 'password',
                'birthdate', 'phone']

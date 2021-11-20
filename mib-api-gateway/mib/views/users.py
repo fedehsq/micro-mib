@@ -8,6 +8,7 @@ from mib.auth.user import User
 users = Blueprint('users', __name__)
 
 
+
 @users.route('/register', methods=['GET', 'POST'])
 def create_user():
     """This method allows the creation of a new user into the database
@@ -25,13 +26,17 @@ def create_user():
         birthdate = form.data['birthdate']
         date = birthdate.strftime('%Y-%m-%d')
         phone = form.data['phone']
+        photo_path=form.data['photo']
+        print("qui")
+        print(photo_path)
         response = UserManager.create_user(
             email,
             password,
             firstname,
             lastname,
             date,
-            phone
+            phone,
+            photo_path
         )
 
         if response.status_code == 201:
@@ -43,10 +48,10 @@ def create_user():
         elif response.status_code == 200:
             # user already exists
             flash('User already exists!')
-            return render_template('create_user.html', form=form)
+            return render_template('register.html', form=form)
         else:
             flash('Unexpected response from users microservice!')
-            return render_template('create_user.html', form=form)
+            return render_template('register.html', form=form)
     else:
         for fieldName, errorMessages in form.errors.items():
             for errorMessage in errorMessages:
