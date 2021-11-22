@@ -1,0 +1,6 @@
+[submodule "mib-api-gateway"]
+	path = mib-api-gateway
+	url = https://github.com/fedehsq/mib-api-gateway.git
+[submodule "mib-user"]
+	path = mib-user
+	url = https://github.com/fedehsq/mib-user.git
