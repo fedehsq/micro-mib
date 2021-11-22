@@ -4,3 +4,7 @@
 [submodule "mib-user"]
 	path = mib-user
 	url = https://github.com/fedehsq/mib-user
+[submodule "mib_message"]
+	path = mib_message
+	url = https://github.com/pieramin/mib_message
+	branch = main
