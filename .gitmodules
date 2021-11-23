@@ -8,3 +8,7 @@
 	path = mib-message
 	url = https://github.com/pieramin/mib-message
 	branch = main
+[submodule "mib-lottery"]
+	path = mib-lottery
+	url = https://github.com/ManfredoFac/mib-lottery
+	branch = main
