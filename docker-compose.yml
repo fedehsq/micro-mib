@@ -141,36 +141,6 @@ services:
       timeout: 5s
       retries: 5
 
-  messages_ms_migrations:
-    #
-    # Messages Microservice Migrations
-    #
-    build: ./mib-message
-    env_file:
-      - messages_ms.conf
-    environment:
-      - POSTGRES_HOST=messages_ms_db
-    restart: on-failure
-    command: flask db upgrade
-    depends_on:
-      messages_ms_db:
-        condition: service_healthy
-
-  messages_ms_worker:
-    #
-    # Messages Microservice Worker node
-    #
-    build: ./mib-message
-    restart: on-failure
-    env_file:
-      - messages_ms.conf
-    environment:
-      - POSTGRES_HOST=messages_ms_db
-    depends_on:
-      messages_ms_db:
-        condition: service_healthy
-      messages_ms_migrations:
-        condition: service_started
   
   #
   # Specify here your microservices
