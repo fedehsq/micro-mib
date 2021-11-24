@@ -172,6 +172,54 @@ services:
       messages_ms_migrations:
         condition: service_started
   
+  # -------------------------------------------- #
+  # Lottery Microservice                           #
+  # -------------------------------------------- #
+  lottery_ms_db:
+    #
+    # Lottery Microservice Database
+    #
+    image: library/postgres:10
+    restart: on-failure
+    env_file:
+      - lottery_ms.conf
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  lottery_ms_migrations:
+    #
+    # Lottery Microservice Migrations
+    #
+    build: ./mib-lottery
+    env_file:
+      - lottery_ms.conf
+    environment:
+      - POSTGRES_HOST=lottery_ms_db
+    restart: on-failure
+    command: flask db upgrade
+    depends_on:
+      lottery_ms_db:
+        condition: service_healthy
+
+  lottery_ms_worker:
+    #
+    # Lottery Microservice Worker node
+    #
+    build: ./mib-lottery
+    restart: on-failure
+    env_file:
+      - lottery_ms.conf
+    environment:
+      - POSTGRES_HOST=lottery_ms_db
+    depends_on:
+      lottery_ms_db:
+        condition: service_healthy
+      lottery_ms_migrations:
+        condition: service_started
+  
   #
   # Specify here your microservices
   # separating services by: db_service, migration_service, worker_service
