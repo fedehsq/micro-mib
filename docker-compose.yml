@@ -157,6 +157,14 @@ services:
       messages_ms_db:
         condition: service_healthy
 
+
+  messages_ms_redis-server:
+    expose:
+      - "6379"
+    image: "redis:alpine"
+    command: redis-server
+
+
   messages_ms_worker:
     #
     # Messages Microservice Worker node
@@ -172,6 +180,9 @@ services:
         condition: service_healthy
       messages_ms_migrations:
         condition: service_started
+      messages_ms_redis-server:
+        condition: service_started
+  
   
   # -------------------------------------------- #
   # Lottery Microservice                           #
@@ -190,6 +201,7 @@ services:
       timeout: 5s
       retries: 5
 
+
   lottery_ms_migrations:
     #
     # Lottery Microservice Migrations
@@ -205,6 +217,14 @@ services:
       lottery_ms_db:
         condition: service_healthy
 
+
+  lottery_ms_redis-server:
+    expose:
+      - "6379"
+    image: "redis:alpine"
+    command: redis-server
+
+
   lottery_ms_worker:
     #
     # Lottery Microservice Worker node
@@ -219,6 +239,8 @@ services:
       lottery_ms_db:
         condition: service_healthy
       lottery_ms_migrations:
+        condition: service_started
+      lottery_ms_redis-server:
         condition: service_started
   
   #
