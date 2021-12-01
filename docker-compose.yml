@@ -164,6 +164,15 @@ services:
     image: "redis:alpine"
     command: redis-server
 
+  messages_ms_celery:
+    build: ./mib-message
+    env_file:
+      - messages_ms.conf
+    environment:
+      - POSTGRES_HOST=messages_ms_db
+    image: celery:latest
+    command: celery -A background worker -l info -B
+
 
   messages_ms_worker:
     #
@@ -223,6 +232,7 @@ services:
       - "6379"
     image: "redis:alpine"
     command: redis-server
+
 
 
   lottery_ms_worker:
