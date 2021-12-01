@@ -179,9 +179,6 @@ services:
     environment:
       - TZ=Europe/Rome 
     restart: on-failure
-    depends_on:
-      messages_ms_celery:
-        condition: service_started
 
 
   messages_ms_celery:
@@ -194,7 +191,9 @@ services:
     image: celery:latest
     command: celery -A background worker -l info -B
     restart: on-failure
-
+    depends_on:
+      messages_ms_redis-server:
+        condition: service_started
 
   messages_ms_worker:
     #
