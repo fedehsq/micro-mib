@@ -29,6 +29,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # WARNING: with Winzozz it does not work, but we need it!
       - nginx_conf:/etc/nginx/conf.d
+    environment:
+      - TZ=Europe/Rome 
 
   nginx_lb:
     #
@@ -44,6 +46,9 @@ services:
       - static_contents:/static
     ports:
       - "80:80"
+    environment:
+      - TZ=Europe/Rome 
+
 
   api_gateway:
     #
@@ -62,6 +67,7 @@ services:
     environment:
       - USERS_MS_HOST=users_ms_worker
       - MESSAGES_MS_HOST=messages_ms_worker
+      - TZ=Europe/Rome 
     labels:
       - mib.api_gateway_worker
 
@@ -91,6 +97,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    environment:
+      - TZ=Europe/Rome 
 
   users_ms_migrations:
     #
@@ -101,6 +109,7 @@ services:
       - users_ms.conf
     environment:
       - POSTGRES_HOST=users_ms_db
+      - TZ=Europe/Rome 
     restart: on-failure
     command: flask db upgrade
     depends_on:
@@ -117,6 +126,7 @@ services:
       - users_ms.conf
     environment:
       - POSTGRES_HOST=users_ms_db
+      - TZ=Europe/Rome 
     depends_on:
       users_ms_db:
         condition: service_healthy
@@ -141,6 +151,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    environment:
+      - TZ=Europe/Rome 
 
   messages_ms_migrations:
     #
@@ -151,6 +163,7 @@ services:
       - messages_ms.conf
     environment:
       - POSTGRES_HOST=messages_ms_db
+      - TZ=Europe/Rome 
     restart: on-failure
     command: flask db upgrade
     depends_on:
@@ -163,6 +176,10 @@ services:
       - "6379"
     image: "redis:alpine"
     command: redis-server
+    environment:
+      - TZ=Europe/Rome 
+    restart: on-failure
+
 
   messages_ms_celery:
     build: ./mib-message
@@ -170,9 +187,13 @@ services:
       - messages_ms.conf
     environment:
       - POSTGRES_HOST=messages_ms_db
+      - TZ=Europe/Rome 
     image: celery:latest
     command: celery -A background worker -l info -B
-
+    restart: on-failure
+    depends_on:
+      messages_ms_redis-server:
+        condition: service_started
 
   messages_ms_worker:
     #
@@ -184,6 +205,7 @@ services:
       - messages_ms.conf
     environment:
       - POSTGRES_HOST=messages_ms_db
+      - TZ=Europe/Rome 
     depends_on:
       messages_ms_db:
         condition: service_healthy
@@ -209,7 +231,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
+    environment:
+      - TZ=Europe/Rome 
 
   lottery_ms_migrations:
     #
@@ -220,19 +243,22 @@ services:
       - lottery_ms.conf
     environment:
       - POSTGRES_HOST=lottery_ms_db
+      - TZ=Europe/Rome 
     restart: on-failure
     command: flask db upgrade
     depends_on:
       lottery_ms_db:
         condition: service_healthy
-
+  
 
   lottery_ms_redis-server:
     expose:
       - "6379"
     image: "redis:alpine"
     command: redis-server
-
+    environment:
+      - TZ=Europe/Rome 
+    restart: on-failure
 
 
   lottery_ms_worker:
@@ -245,6 +271,7 @@ services:
       - lottery_ms.conf
     environment:
       - POSTGRES_HOST=lottery_ms_db
+      - TZ=Europe/Rome 
     depends_on:
       lottery_ms_db:
         condition: service_healthy
