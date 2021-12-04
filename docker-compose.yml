@@ -67,6 +67,7 @@ services:
     environment:
       - USERS_MS_HOST=users_ms_worker
       - MESSAGES_MS_HOST=messages_ms_worker
+      - LOTTERY_MS_HOST=lottery_ms_worker
       - TZ=Europe/Rome 
     labels:
       - mib.api_gateway_worker
@@ -260,6 +261,15 @@ services:
       - TZ=Europe/Rome 
     restart: on-failure
 
+  lottery_ms_celery:
+    build: ./mib-lottery
+    env_file:
+      - lottery_ms.conf
+    environment:
+      - POSTGRES_HOST=lottery_ms_db
+    image: celery:latest
+    command: celery -A background worker -l info -B
+
 
   lottery_ms_worker:
     #
@@ -271,6 +281,7 @@ services:
       - lottery_ms.conf
     environment:
       - POSTGRES_HOST=lottery_ms_db
+      - USERS_MS_HOST=users_ms_worker
       - TZ=Europe/Rome 
     depends_on:
       lottery_ms_db:
