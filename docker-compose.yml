@@ -189,7 +189,7 @@ services:
     environment:
       - POSTGRES_HOST=messages_ms_db
       - TZ=Europe/Rome 
-    image: celery:latest
+    image: messages_ms_celery:latest
     command: celery -A background worker -l info -B
     restart: on-failure
     depends_on:
@@ -267,6 +267,7 @@ services:
       - lottery_ms.conf
     environment:
       - POSTGRES_HOST=lottery_ms_db
+      - TZ=Europe/Rome 
     image: celery:latest
     command: celery -A background worker -l info -B
 
