@@ -6,7 +6,7 @@
 	url = https://github.com/fedehsq/mib-user
 [submodule "mib-message"]
 	path = mib-message
-	url = https://github.com/pieramin/mib-message
+	url = https://github.com/fedehsq/mib-message
 	branch = main
 [submodule "mib-lottery"]
 	path = mib-lottery
