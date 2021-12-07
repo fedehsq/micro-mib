@@ -1,0 +1,19 @@
+language: python
+
+python: 3.9
+
+before_install:
+  - git submodule update --init --recursive
+
+jobs:
+  include:
+    - name: 'user'
+      script: 
+        - cd mib-user
+        - pip install -r requirements.dev.txt
+        - flask run -p 5001
+    - name: 'test'
+      script:
+        - cd mib-api-gateway
+        - pip install -r requirements.dev.txt
+        - pytest
