@@ -1,11 +1,14 @@
 language: python
-
 python: 3.9
-
+env:
+- TOX_ENV=py39
+install:
+- pip install tox
 before_install:
   - git submodule update --init --recursive
 
-after_success: "sbt coveralls"
+after_success:
+- tox -e $TOX_ENV
 
 jobs:
   include:
