@@ -1,4 +1,5 @@
 # Message in a Bottle
+[![Build Status](https://app.travis-ci.com/fedehsq/micro_mib.svg?token=sCUbEzotwbjEpdHdvWDb&branch=master)](https://app.travis-ci.com/fedehsq/micro_mib)
 
 This is the main repository of Message in a Bottle application, self project of *Advanced Software Engineering* course, University of Pisa.
 
