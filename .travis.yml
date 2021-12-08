@@ -36,5 +36,4 @@ jobs:
         - export FLASK_ENV=development
         - pip install psycopg2
         - pip install -r requirements.dev.txt
-        - pytest --cov-report term-missing
-        - tox -e $TOX_ENV
+        - pytest --cov=mib -r a -v
