@@ -1,7 +1,9 @@
 language: python
-
 python: 3.9
-
+env:
+- TOX_ENV=py39
+install:
+- pip install tox
 before_install:
   - git submodule update --init --recursive
 
@@ -34,4 +36,5 @@ jobs:
         - export FLASK_ENV=development
         - pip install psycopg2
         - pip install -r requirements.dev.txt
-        - pytest
+        - pytest --cov-report term-missing
+        - tox -e $TOX_ENV
