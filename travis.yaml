@@ -13,9 +13,25 @@ jobs:
         - pip install psycopg2
         - pip install -r requirements.dev.txt
         - export FLASK_ENV=development
+        - bash erase_db.sh
         - flask run -p 5001 &
         - cd ..
+        - cd mib-message
+        - pip install psycopg2
+        - pip install -r requirements.dev.txt
+        - export FLASK_ENV=development
+        - bash erase_db.sh
+        - flask run -p 5002 &
+        - cd ..
+        - cd mib-lottery
+        - pip install psycopg2
+        - pip install -r requirements.dev.txt
+        - export FLASK_ENV=development
+        - bash erase_db.sh
+        - flask run -p 5003 &
+        - cd ..
         - cd mib-api-gateway
+        - export FLASK_ENV=development
         - pip install psycopg2
         - pip install -r requirements.dev.txt
         - pytest
