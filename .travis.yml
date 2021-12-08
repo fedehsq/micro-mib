@@ -7,9 +7,6 @@ install:
 before_install:
   - git submodule update --init --recursive
 
-after_success:
-- tox -e $TOX_ENV
-
 jobs:
   include:
     - name: 'user'
@@ -40,3 +37,4 @@ jobs:
         - pip install psycopg2
         - pip install -r requirements.dev.txt
         - pytest --cov-report term-missing
+        - tox -e $TOX_ENV
