@@ -5,18 +5,30 @@ This is the main repository of Message in a Bottle application, self project of 
 
 ## Team info
 
-- The *squad id* is **<squad_id>**
-- The *team leader* is <team_leader>
+- The *squad id* is **9**
+- The *team leader* is Francesco Kotopulos De Angelis
 
 #### Members
 
-| Name and Surname | Email |
-| ---------------- | ----- |
-|                  |       |
-|                  |       |
-|                  |       |
-|                  |       |
-|                  |       |
+|         Name and Surname       |              Email                  |
+| ------------------------------ | ----------------------------------- |
+| Federico Bernacca              | f.bernacca@studenti.unipi.it        |
+| Paola Petri                    | p.petri1@studenti.unipi.it          |
+| Nicolò Pierami                 | n.pierami@studenti.unipi.it         |
+| Francesco Kotopulos De Angelis | f.kotopulosdeange@studenti.unipi.it |
+| Manfredo Facchini              | m.facchini1@studenti.unipi.it       |
+
+## Description
+
+"**MyMessageInABottle** might seem at first glance
+simply like another messaging app, like many others. WRONG.\
+MyMessageInABottle is a time capsule where each user can keep messages, safeguard them, and send them only to decide later when
+the recipient will be able to open them. Whether it’s at a specific time
+on that same day, weeks later, or even years later. What matters is that
+the message cannot be changed or deleted. Even if you uninstall the
+app. And it will reach its destination. It’s important.\
+There are choices
+to be made, and you need to take your time."
 
 ## Instructions
 
@@ -25,7 +37,7 @@ This is the main repository of Message in a Bottle application, self project of 
 To clone the repository you have to specify the recursive parameter,
 in this way:
 
-`git clone --recursive git@github.com:<team_leader_username>/<main-project>.git`
+`git clone --recursive https://github.com/fedehsq/micro_mib`
 
 All the submodules will be fetched from GitHub and they will be
 placed inside the project root.
@@ -59,6 +71,7 @@ Each micro-service should have a single configuration file, placed inside the ma
 
 
 ## Development
+### From monolith to microservices!
 
 The project structure should be the following:
 
@@ -81,3 +94,14 @@ To startup application you can issue the following command:
 
 The default application environment for this application is **production**. 
 
+## Authors
+
+* [Federico Bernacca](https://github.com/fedehsq)
+
+* [Paola Petri](https://github.com/paolapetri)
+
+* [Nicolò Pierami](https://github.com/pieramin)
+
+* [Manfredo Facchini](https://github.com/ManfredoFac)
+
+* [Francesco Kotopulos De Angelis](https://github.com/dookie182)
