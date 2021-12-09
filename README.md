@@ -74,6 +74,7 @@ Each micro-service should have a single configuration file, placed inside the ma
 ### From monolith to microservices!
 
 The project structure should be the following:
+![Arch](https://github.com/fedehsq/micro_mib/blob/master/split.jpg)
 
 
 
